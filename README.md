@@ -1,4 +1,4 @@
-# System Requirement Extractor
+# Regukation Requirement Extractor
 
 A Streamlit-based application to extract system-level requirements from technical PDF documents using OpenAI GPT models and LangChain semantic search.
 
@@ -31,8 +31,8 @@ A Streamlit-based application to extract system-level requirements from technica
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/system-requirement-extractor
-   cd system-requirement-extractor
+   git clone https://github.com/your-username/Regulation_Extractor
+   cd Regulation_Extractor
 2. Install required packages:
    
 ```bash
