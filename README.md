@@ -1,4 +1,4 @@
-# Regukation Requirement Extractor
+# Regulation Requirement Extractor
 
 A Streamlit-based application to extract system-level requirements from technical PDF documents using OpenAI GPT models and LangChain semantic search.
 
