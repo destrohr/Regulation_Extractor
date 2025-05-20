@@ -3,7 +3,7 @@ from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_core.vectorstores import InMemoryVectorStore
 from openai import OpenAI
-import fitz  # PyMuPDF
+import fitz 
 import pandas as pd
 import os
 import uuid
@@ -23,11 +23,9 @@ if UploadedFile is not None:
         with open(TempPath, "wb") as File:
             File.write(UploadedFile.read())
 
-        # Open and extract
         PdfDoc = fitz.open(TempPath)
         Pages = [{"Page": PageNumber + 1, "Content": Page.get_text("text")} for PageNumber, Page in enumerate(PdfDoc)]
         LangchainDocuments = [Document(page_content=Page["Content"], metadata={"page": Page["Page"]}) for Page in Pages]
-        # Use first 2 pages to check if it's a requirement document
         SampleText = " ".join([Doc.page_content for Doc in LangchainDocuments[:2]])[:1000]
         CheckPrompt = f"""You are a system analyst. Determine if the following content looks like a system or technical requirement document.
 
@@ -35,11 +33,9 @@ Text:\"\"\"{SampleText}\"\"\"
 Respond with either "Yes" or "No" only.
 """
         CheckResponse = Client.chat.completions.create(model="gpt-3.5-turbo",messages=[{"role": "user", "content": CheckPrompt}])
-        # Check if it's a requirement document
         if "yes" in CheckResponse.choices[0].message.content.strip().lower():
             st.success("✅ Document looks like a requirement document.")
             with st.spinner("Extracting system requirements..."):
-                # Generate embeddings and build vector store
                 Embeddings = OpenAIEmbeddings()
                 VectorStore = InMemoryVectorStore.from_documents(LangchainDocuments, Embeddings)
                 SearchQuery = "type approval extension requirements"
@@ -65,12 +61,11 @@ Output:
                 # Offer file download
                 with open(OutputFile, "rb") as File:
                     st.download_button(
-                        label="📥 Download Requirements Excel",
+                        label="Download Requirements Excel",
                         data=File,
                         file_name=OutputFile,
                         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     )
-                # Clean up saved Excel file
                 os.remove(OutputFile)
 
         else:
