@@ -52,13 +52,13 @@ Output:
                     Response = Client.chat.completions.create(model="gpt-3.5-turbo",messages=[{"role": "user", "content": RequirementPrompt}])
                     FormattedRequirement = Response.choices[0].message.content.strip()
                     SystemRequirements.append({"Requirement No.": f"Requirement {st.session_state.RunId}.{Index}","Page": RetrievedDoc.metadata["page"],"System Requirement": FormattedRequirement})
-                # Convert to DataFrame and save as Excel
+       
                 DataFrame = pd.DataFrame(SystemRequirements)
                 OutputFile = f"system_requirements_{st.session_state.RunId}.xlsx"
                 DataFrame.to_excel(OutputFile, index=False)
-                # Increment session run ID
+              
                 st.session_state.RunId += 1
-                # Offer file download
+             
                 with open(OutputFile, "rb") as File:
                     st.download_button(
                         label="Download Requirements Excel",
